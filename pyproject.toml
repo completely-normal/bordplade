@@ -1,0 +1,61 @@
+[build-system]
+    requires = ["poetry>=0.12"]
+    build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+    name = "bordplade"
+    version = "0.1.0"
+    description = "tabletop / rpg campaign tools"
+    authors = ["islandc", "maeggle"]
+    license = "MIT"
+    packages = [
+        { include = "bordplade", from = "backend/src" },
+    ]
+
+[tool.poetry.dependencies]
+    python = "^3.8"
+    django = { version = ">=3.0" }
+    djangorestframework = { version = "*" }
+    django-filter = { version = "*" }
+    django-oauth-toolkit = { version = "*" }
+    markdown = { version = "*" }
+    whitenoise = [
+        { version = "*", extras = [], markers = "sys_platform == 'win32'" },
+        { version = "*", extras = ["brotli"], markers = "sys_platform != 'win32'" },
+    ]
+
+[tool.poetry.dev-dependencies]
+    pytest = { version = ">= 3.0" }
+    model-bakery = { version = "*" }
+    black = [
+        # no pre-compiled win32-wheel available on PyPI :(
+        { version = ">= 19.10b0", markers = "sys_platform != 'win32'" },
+    ]
+    isort = { version = "*" }
+    sphinx = { version = "*" }
+
+[tool.poetry.extras]
+
+[tool.black]
+    line-length = 120
+    target-version = ["py38"]
+    include = '\.pyi?$'
+    exclude = '''
+        ( # exclude a few common directories in the root of the project
+          /(
+              \.git
+            | \.idea
+            | \.mypy_cache
+            | \.tox
+            | \.venv
+            | deploy
+            | frontend
+            | dist
+          )/
+        )
+        '''
+
+[tool.isort]
+    line_length = 120
+    forced_separate = "django.contrib,django.utils"
+    multi_line_output = 3  # 3 = Vertical Hanging Indent -> easier to maintain under version control
